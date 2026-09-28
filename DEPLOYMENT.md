@@ -10,17 +10,17 @@
 
 | Mục | Nội dung |
 |-----|----------|
-| Họ và tên | (điền họ tên) |
-| Mã học viên | (điền mã học viên) |
-| Repo | (điền link repo K4-L3A-DAY12-HoVaTen-MSSV-CloudServicesAndDeployment) |
+| Họ và tên | Ngô Kỳ Anh |
+| Mã học viên | 2A202602916 |
+| Repo | https://github.com/glacerjust/K4-L3A-DAY12-NgoKyAnh-2A202602916-CloudServiceAndDeployment |
 
 ## Service
 
 | Mục | Nội dung |
 |-----|----------|
-| Public URL | https://TODO-thay-bang-url-that.up.railway.app |
-| Platform | Railway / Render / Cloud Run — (điền platform bạn dùng) |
-| Ngày deploy | (điền ngày) |
+| Public URL | https://day12-lab-production-a05f.up.railway.app |
+| Platform | Railway |
+| Ngày deploy | 2026-09-28 |
 
 ## Biến Môi Trường Đã Set Trên Cloud
 
@@ -30,7 +30,7 @@ Ghi tên biến và **nguồn giá trị**, không ghi giá trị:
 |------|--------|---------|
 | `PORT` | ✅ | platform tự gán |
 | `AGENT_API_KEY` | ✅ | đặt trong dashboard, không nằm trong repo |
-| `REDIS_URL` | ✅ | (điền: Redis add-on của platform / Upstash / ...) |
+| `REDIS_URL` | ✅ | Redis add-on của Railway |
 | `RATE_LIMIT_PER_MINUTE` | ✅ | 10 |
 | `MONTHLY_BUDGET_USD` | ✅ | 10.0 |
 | `LOG_LEVEL` | ✅ | INFO |
@@ -73,7 +73,58 @@ done; echo
 Dán output của các lệnh trên vào đây:
 
 ```
-(điền output)
+1. Liveness:
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Mon, 28 Sep 2026 09:51:27 GMT
+Server: railway-hikari
+x-railway-request-id: C3JhCRlXTj-1n0sULPU1MQ
+Content-Length: 57
+x-hikari-trace: sin1.nzn2
+x-railway-edge: sin1
+Connection: keep-alive
+
+{"status":"ok","service":"day12-agent","version":"1.0.0"}
+
+2. Readiness:
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Mon, 28 Sep 2026 09:51:54 GMT
+Server: railway-hikari
+x-railway-request-id: 6KkJJXXRRLWVt5419I3ezw
+Content-Length: 31
+x-hikari-trace: sin1.98a6
+x-railway-edge: sin1
+Connection: keep-alive
+
+{"status":"ready","redis":true}
+
+3. Không có API key:
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Date: Mon, 28 Sep 2026 09:52:30 GMT
+Server: railway-hikari
+x-railway-request-id: pmztzuMMQP-taBMR9I3ezw
+Content-Length: 39
+x-hikari-trace: sin1.hs0s
+x-railway-edge: sin1
+Connection: keep-alive
+
+{"detail":"invalid or missing API key"}
+
+4. Có API key:
+{
+    "answer":  "Ngáº¯n gá»n: Deploy la gi phá»¥ thuá»c vÃ o ba yáº¿u tá» â cáº¥u hÃ¬nh qua biáº¿n mÃ´i trÆ°á»ng, health check Äá» orchestrator biáº¿t tráº¡ng thÃ¡i, vÃ  giá»i háº¡n tÃ i nguyÃªn. (MÃ¬nh Äang nhá» 2 lÆ°á»£t trao Äá»i trÆ°á»c ÄÃ³.)",
+    "user_id":  "sv-test",
+    "history_length":  2,
+    "cost_usd":  3.465E-05,
+    "tokens":  {
+                   "in":  43,
+                   "out":  47
+               }
+}
+5. Rate limit:
+200 200 200 200 200 200 200 200 200 200 429 429 429 429 429 
 ```
 
 ## Ảnh Chụp Màn Hình
@@ -82,20 +133,3 @@ Dán output của các lệnh trên vào đây:
 
 - `screenshots/dashboard.png` — trang quản lý service trên platform
 - `screenshots/health.png` — kết quả gọi `/health` từ trình duyệt hoặc curl
-
----
-
-## Nếu Dùng Phương Án Dự Phòng
-
-Không đăng ký được tài khoản cloud? Vẫn nộp được bài, nhưng CP5 tối đa 60% điểm:
-
-1. Đặt `LOCAL_FALLBACK=true` trong `.env`
-2. Chạy `docker compose up -d` rồi kiểm tra `docker compose ps`
-3. Chụp màn hình vào `screenshots/`
-4. Chạy `pytest tests/test_cp5.py -v` — bộ test sẽ tự chuyển sang kiểm tra
-   `http://localhost:8000`
-5. Ghi rõ lý do không deploy được vào phần dưới đây:
-
-```
-(điền lý do nếu dùng phương án dự phòng, ngược lại xóa mục này)
-```
